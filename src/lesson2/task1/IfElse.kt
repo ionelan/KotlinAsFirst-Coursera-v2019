@@ -8,10 +8,6 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
-fun main() {
-    println(121 % 10)
-}
-
 /**
  * Пример
  *
