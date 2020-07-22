@@ -67,7 +67,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n < 10) return 1
+    return 1 + digitNumber(n / 10)
+}
 
 /**
  * Простая
@@ -75,7 +78,10 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (n < 3) return 1
+    return fib(n - 2) + fib(n - 1)
+}
 
 /**
  * Простая
@@ -133,7 +139,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var steps = 0
+    var n: Int = x
+    while (n > 1) {
+        if (n % 2 == 0) n /= 2 else n = n * 3 + 1
+        steps++
+    }
+    return steps
+}
 
 /**
  * Средняя
@@ -164,7 +178,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var m = n
+    var revertN = 0
+    while (m > 0) {
+        revertN = revertN * 10 + m % 10
+        m /= 10
+    }
+    return revertN
+}
 
 /**
  * Средняя
@@ -175,7 +197,17 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var palindrome = n
+    var reverse = 0
+    while (palindrome != 0) {
+        val remainder = palindrome % 10
+        reverse = reverse * 10 + remainder
+        palindrome = palindrome / 10
+    }
+    return n == reverse
+
+}
 
 /**
  * Средняя
@@ -185,7 +217,17 @@ fun isPalindrome(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var m = n
+    var l: Int
+    if (n < 10) return false
+    while (m > 9) {
+        l = m % 10
+        m /= 10
+        if (m % 10 != l) return true
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -196,7 +238,39 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var k = 0       // current position in Sequence
+    var l: Int
+    var m: Int
+    var number = 0  // current number for square
+    var resultNumber = 0
+    mainloop@ while (true) {
+        number++
+        l = 0
+        m = number * number
+        while (m > 0) {
+            k++
+            l++
+            if (k == n) {
+                // if we've reached the position we need
+                // we should get the "l" digit in "number * number" and exit from mainloop
+                m = number * number
+                var revertN = 0
+                while (m > 0) {
+                    revertN = revertN * 10 + m % 10
+                    m /= 10
+                }
+                for (i in 1..l) {
+                    resultNumber = revertN % 10
+                    revertN /= 10
+                }
+                break@mainloop
+            }
+            m /= 10
+        }
+    }
+    return resultNumber
+}
 
 /**
  * Сложная
@@ -207,4 +281,38 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    if (n in 1..2) return 1
+    var k = 2           // current position in Sequence
+    var l: Int
+    var m: Int
+    var fibNumber1 = 1  // fib(n-1)
+    var fibNumber2 = 1  // fib(n-2)
+    var resultNumber = 0
+    mainloop@ while (true) {
+        l = 0
+        m = fibNumber1 + fibNumber2
+        fibNumber2 = fibNumber1
+        fibNumber1 = m
+        while (m > 0) {
+            k++
+            l++
+            if (k == n) {
+                // if we've reached the position we need
+                // we should get the "l" digit in "fibNumber1 + fibNumber2" and exit from mainloop
+                var revertN = 0
+                while (fibNumber1 > 0) {
+                    revertN = revertN * 10 + fibNumber1 % 10
+                    fibNumber1 /= 10
+                }
+                for (i in 1..l) {
+                    resultNumber = revertN % 10
+                    revertN /= 10
+                }
+                break@mainloop
+            }
+            m /= 10
+        }
+    }
+    return resultNumber
+}
