@@ -115,14 +115,14 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double = sqrt(v.map { it * it }.sum())
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
 
 /**
  * Средняя
@@ -132,7 +132,12 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): List<Double> {
+    if (list.isEmpty()) return list
+    val meanOfElements = list.sum() / list.size
+    list.replaceAll { it - meanOfElements }
+    return list
+}
 
 /**
  * Средняя
@@ -163,7 +168,13 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    if (list.size < 2) return list
+    for (i in 1 until list.size) {
+        list[i] += list[i - 1]
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -172,7 +183,22 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val listOfSimpleMultipliers = mutableListOf<Int>()
+    var multiplier = 2
+    var currentValue = n
+    while (currentValue > 1 && multiplier * multiplier <= n) {
+        if (currentValue % multiplier == 0) {
+            currentValue /= multiplier
+            listOfSimpleMultipliers.add(multiplier)
+            multiplier = 2
+        }
+        if (multiplier == 2) multiplier++
+        else multiplier += 2
+    }
+    if (currentValue != 1) listOfSimpleMultipliers.add(currentValue)
+    return listOfSimpleMultipliers.sorted()
+}
 
 /**
  * Сложная
@@ -181,7 +207,22 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    val listOfSimpleMultipliers = mutableListOf<Int>()
+    var multiplier = 2
+    var currentValue = n
+    while (currentValue > 1 && multiplier * multiplier <= n) {
+        if (currentValue % multiplier == 0) {
+            currentValue /= multiplier
+            listOfSimpleMultipliers.add(multiplier)
+            multiplier = 2
+        }
+        if (multiplier == 2) multiplier++
+        else multiplier += 2
+    }
+    if (currentValue != 1) listOfSimpleMultipliers.add(currentValue)
+    return listOfSimpleMultipliers.sorted().joinToString("*")
+}
 
 /**
  * Средняя
@@ -236,7 +277,23 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val mapRoman =
+        mapOf(
+            1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50 to "L", 40 to "XL",
+            10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I"
+        )
+    if (n < 0) return "invalid input"
+    var num = n
+    var result = ""
+    mapRoman.forEach { (arab, roman) ->
+        while (num >= arab) {
+            result += roman
+            num -= arab
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная
@@ -245,4 +302,52 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    if (n < 1) return "invalid input"
+    val arr1 = arrayOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val arr1f = arrayOf("", "одна", "две")
+    val arr11 = arrayOf(
+        "", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать"
+        , "семнадцать", "восемнадцать", "девятнадцать", "двадцать"
+    )
+    val arr10 = arrayOf(
+        "", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят"
+        , "семьдесят", "восемьдесят", "девяносто"
+    )
+    val arr100 = arrayOf(
+        "", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот"
+        , "семьсот", "восемьсот", "девятьсот"
+    )
+    val arrForms = arrayOf("тысяча", "тысячи", "тысяч")
+
+
+    val listOfSegments = mutableListOf(n / 1000)
+    listOfSegments.add(n - listOfSegments[0] * 1000)
+    var resultString = ""
+    for (i in 0 until listOfSegments.size) {
+        var seg = listOfSegments[i]
+        if (seg > 0) {
+            val k = seg % 10
+            seg /= 10
+            val l = seg % 10
+            seg /= 10
+            val m = seg % 10
+            if (m > 0) resultString += arr100[m] + " "
+            if (l > 1 || (l == 1 && k == 0)) resultString += arr10[l] + " "
+            when {
+                l == 1 && k != 0 -> resultString += arr11[k] + " "
+                l != 1 && (k > 2 || i != 0) -> resultString += arr1[k] + " "
+                l != 1 && k in 1..2 -> resultString += arr1f[k] + " "
+            }
+            if (i == 0) {
+                resultString += when {
+                    l != 1 && k == 1 -> arrForms[0] + " "
+                    l != 1 && k == 2 -> arrForms[1] + " "
+                    else -> arrForms[2] + " "
+                }
+            }
+
+        }
+    }
+    return resultString.trim()
+}
