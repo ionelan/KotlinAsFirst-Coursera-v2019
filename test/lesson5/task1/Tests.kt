@@ -223,8 +223,15 @@ class Tests {
         assertEquals(
             "Мария",
             findCheapestStuff(
-                mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("печенье" to 100.0)),
+                mapOf("Мария" to ("печенье" to 20.0), "Колос" to ("торт" to 10.0), "Орео" to ("печенье" to 100.0)),
                 "печенье"
+            )
+        )
+        assertEquals(
+            "Колос",
+            findCheapestStuff(
+                mapOf("Мария" to ("печенье" to 20.0), "Колос" to ("торт" to 10.0), "Орео" to ("печенье" to 100.0)),
+                "торт"
             )
         )
     }
@@ -319,6 +326,18 @@ class Tests {
             bagPacking(
                 mapOf("Кубок" to (500 to 2000), "Слиток" to (1000 to 5000)),
                 850
+            )
+        )
+        assertEquals(
+            setOf("Кубок", "Алмаз", "Монета"),
+            bagPacking(
+                mapOf(
+                    "Кубок" to (500 to 2000),
+                    "Монета" to (1200 to 8000),
+                    "Алмаз" to (100 to 1000),
+                    "Слиток" to (1000 to 5000)
+                ),
+                2000
             )
         )
         assertEquals(
