@@ -73,6 +73,7 @@ class Tests {
     fun bestLongJump() {
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
+        assertEquals(70, bestLongJump("% - 70 % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
 
