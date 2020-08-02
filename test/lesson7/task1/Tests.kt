@@ -224,6 +224,7 @@ Basic, Ruby, Swift.
                     <html>
                         <body>
                             <p>
+                                Lorem ipsum <b><i>dolor sit amet</i>, consectetur</b> some text <b>adipiscing</b> elit.
                                 Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
                                 Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
                             </p>
